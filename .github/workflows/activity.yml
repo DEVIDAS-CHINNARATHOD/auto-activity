@@ -1,0 +1,40 @@
+name: Smart Auto Commit Bot
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'   # runs every 4 hours
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Run commit bot
+      run: |
+        git config --global user.name "activity-bot-dev"
+        git config --global user.email "dev-bot@github.com"
+
+        commits=$(( RANDOM % 10 + 5 ))
+
+        echo "Today commits: $commits"
+
+        messages=("fix bug" "update docs" "refactor code" "improve logic" "minor update" "cleanup" "add feature" "optimize code")
+
+        for ((i=1;i<=commits;i++))
+        do
+          file="file_$((RANDOM % 5)).txt"
+          echo "Update $(date) $RANDOM" >> $file
+          git add .
+          msg=${messages[$RANDOM % ${#messages[@]}]}
+          git commit -m "$msg"
+
+          sleep $(( RANDOM % 20 + 5 ))
+        done
+
+    - name: Push changes
+      run: |
+        git push
