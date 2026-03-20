@@ -15,8 +15,8 @@ jobs:
 
     - name: Run commit bot
       run: |
-        git config --global user.name "activity-bot-dev"
-        git config --global user.email "dev-bot@github.com"
+        git config --global user.name "DEVIDAS-CHINNARATHOD"
+        git config --global user.email "devidaschinnarathod.25@gmail.com"
 
         commits=$(( RANDOM % 10 + 5 ))
 
